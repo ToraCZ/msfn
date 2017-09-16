@@ -1,0 +1,55 @@
+body {
+    padding: 5px;
+    overflow: hidden;
+}
+hr {
+    margin: 0 -200px;
+    background-color: lightgray;
+    height: 1px;
+}
+input {
+    border: none;
+    background-color: inherit;
+    width: 50px;
+}
+#example {
+    float: right;
+    background-color: gray;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    /* font */
+    text-shadow: 0px 0px 10px black;
+    font-size: 42px;
+    font-family: monospace;
+    font-weight: bolder;
+    text-align: center;
+    color: white;
+}
+#save {
+    float: right;
+    display: block;
+}
+#save>span {
+    margin-right: 30px;
+}
+footer {
+    border-top: solid lightgray 1px;
+    margin: 0 -50px;
+    padding: 0 50px;
+}
+td:first-of-type {
+    text-align: right;
+    font-weight: bold;
+}
+legend {
+    font-size: 14px;
+    font-weight: bold;
+}
+#custFont>button {
+    font-weight: bold;
+    cursor: pointer;
+}

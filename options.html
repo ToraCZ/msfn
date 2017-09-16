@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MSFN Options</title>
+    <link href="css/options.css" rel="stylesheet" media="screen">
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/options.js"></script>
+</head>
+
+<body>
+    <fieldset>
+        <legend>Encoding</legend>
+        <table>
+            <tr>
+                <td>
+                    <label for="encoding">UTF-8</label>
+                </td>
+                <td>
+                    <input type="radio" name="encoding" value="UTF8">
+                </td>
+                <td>Default, works for most.</td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="encoding">CP-1250</label>
+                </td>
+                <td>
+                    <input type="radio" name="encoding" value="CP1250">
+                </td>
+                <td>Eastern European: Serbian, Czech, etc.</td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="encoding">CP-1251</label>
+                </td>
+                <td>
+                    <input type="radio" name="encoding" value="CP1251">
+                </td>
+                <td>Cyrillic: Russian, Ukrainan etc.</td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="encoding">CP-1252</label>
+                </td>
+                <td>
+                    <input type="radio" name="encoding" value="CP1256">
+                </td>
+                <td>Western European: English, German etc.</td>
+            </tr>
+        </table>
+
+    </fieldset>
+    <br>
+    <fieldset>
+        <legend>Font</legend>
+        <div id="example">Aa</div>
+        <table>
+            <tr>
+                <td>
+                    <label for="fColor">Text: </label>
+                </td>
+                <td>
+                    <input type="color" id="fColor" value="#ffffff">
+                </td>
+                <td>
+                    <label for="fSize">Size: </label>
+                </td>
+                <td>
+                    <input type="number" id="fSize" min="12" max="128" value="42" step="6"> px
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="sColor">Shadow: </label>
+                </td>
+                <td>
+                    <input type="color" id="sColor">
+                </td>
+                <td>
+                    <label for="sSize">Size: </label>
+                </td>
+                <td>
+                    <input type="number" id="sSize" min="0" max="64" value="0" step="2"> px
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="fontFam">Type:</label>
+                </td>
+                <td colspan="3">
+                    <select id="fontFam">
+                        <option value="monospace">Monospace</option>
+                        <option value="sans-serif">Sans-serif</option>
+                        <option value="serif">Serif</option>
+                        <option value="cursive">Cursive</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="opendyslexic">OpenDyslexic</option>
+                        <option value="other">Other: </option>
+                    </select>
+                    <div id="custFont" hidden="hidden">
+                        <input type="text" placeholder="Name of font" size=15 style="width:auto">
+                        <button>X</button>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+    </fieldset>
+    <br>
+    <fieldset>
+        <table>
+            <tr>
+                <td>Buy me a beer:</td>
+                <td>
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                        <input type="hidden" name="cmd" value="_s-xclick">
+                        <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+                        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" style="height:30px;width:auto">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <legend>Donation</legend>
+
+    </fieldset>
+    <br>
+    <footer>
+        <br>
+        <div id="save">
+            <span></span>
+            <button>Restore defaults</button>
+            <button>Save</button>
+        </div>
+        <br>
+    </footer>
+</body>
+
+</html>

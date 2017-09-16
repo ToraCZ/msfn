@@ -1,0 +1,50 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+    "manifest_version": 2,
+    "name": "My Subs For Netflix",
+    "description": "A tool to add custom .srt subtitles to Netflix.",
+    "version": "1.1.0",
+    "author": "Jakub Šantora",
+    "short_name": "MSFN",
+    "permissions": [
+        "storage",
+        "http://www.netflix.com/",
+        "activeTab",
+        "declarativeContent",
+        "tabs",
+        "webNavigation"
+    ],
+    "background": {
+        "scripts": ["js/jquery-2.1.4.min.js", "js/background.js"],
+        "persistent": false
+    },
+    "page_action": {
+        "default_icon": "img/icon38.png",
+        "default_title": "Help",
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "32": "img/icon32.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://www.netflix.com/*"],
+            "css": ["css/content.css"],
+            "js": ["js/injector.js"]
+            }
+            ],
+    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+    "web_accessible_resources": [
+        "img/icon*.png",
+        "js/content.js",
+        "js/jquery-2.1.4.min.js",
+        "css/content.css"
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "chrome_style": true
+    }
+}

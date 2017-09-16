@@ -1,0 +1,24 @@
+body {
+    width: 250px;
+    overflow: hidden;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+.key {
+    font-weight: bold;
+    border: 2px outset black;
+    background-color: gainsboro;
+    padding: 4px;
+    border-radius: 5px;
+}
+table {
+    margin-top: -10px;
+    border-collapse: separate;
+    border-spacing: 4px 16px;
+    text-align: center;
+}
+th {
+    font-size: 1.3em;
+}

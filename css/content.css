@@ -1,0 +1,58 @@
+#dndOver {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    display: none;
+    color: white;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 6em;
+}
+#subInput {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+}
+#dndOver>span {
+    position: relative;
+    top: 50%;
+    margin: 0 auto;
+    border: 2px dashed white;
+    padding: 6em;
+    border-radius: 25px;
+}
+#subs {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    left: 0;
+    bottom: 2%;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    z-index: 2;
+    /*text properties*/
+    text-align: center;
+    text-shadow: 0px 0px 10px black;
+    font-size: 42px;
+    font-family: monospace;
+    font-weight: bolder;
+}
+#status {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    right: 5%;
+    top: 5%;
+    z-index: 2;
+    text-shadow: 0px 0px 10px black;
+    font-size: 42px;
+    color: red;
+    opacity: 0;
+}
+ol:nth-of-type(3)>a {
+    font-size: 2em;
+}
