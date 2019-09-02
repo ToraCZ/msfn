@@ -1,6 +1,6 @@
 //inject jquery
 var jq = document.createElement('script');
-jq.src = chrome.extension.getURL('js/jquery-2.1.4.min.js');
+jq.src = "https://code.jquery.com/jquery-3.4.1.min.js";
 (document.head).appendChild(jq);
 //wait for jq to inject
 setTimeout(function () {

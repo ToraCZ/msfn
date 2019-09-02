@@ -1,4 +1,4 @@
-#dndOver {
+#msfn_dragOverlay {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -12,13 +12,13 @@
     text-align: center;
     font-size: 6em;
 }
-#subInput {
+#msfn_subtitleInput {
     position: absolute;
     cursor: pointer;
     z-index: 10;
     opacity: 0;
 }
-#dndOver>span {
+#msfn_dragOverlay>span {
     position: relative;
     top: 50%;
     margin: 0 auto;
@@ -26,7 +26,7 @@
     padding: 6em;
     border-radius: 25px;
 }
-#subs {
+#msfn_subtitles {
     position: absolute;
     background-color: rgba(0, 0, 0, 0);
     left: 0;
@@ -42,7 +42,7 @@
     font-family: monospace;
     font-weight: bolder;
 }
-#status {
+#msfn_status {
     position: absolute;
     background-color: rgba(0, 0, 0, 0);
     right: 5%;
@@ -53,6 +53,4 @@
     color: red;
     opacity: 0;
 }
-ol:nth-of-type(3)>a {
-    font-size: 2em;
-}
+

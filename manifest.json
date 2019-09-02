@@ -1,10 +1,10 @@
 {
-"update_url": "https://clients2.google.com/service/update2/crx",
+    "update_url": "https://clients2.google.com/service/update2/crx",
 
     "manifest_version": 2,
     "name": "My Subs For Netflix",
     "description": "A tool to add custom .srt subtitles to Netflix.",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "author": "Jakub Šantora",
     "short_name": "MSFN",
     "permissions": [
