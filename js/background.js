@@ -11,38 +11,30 @@ chrome.runtime.onInstalled.addListener(function () {
             fontFam: "monospace"
         });
     }
-    // Replace all rules ...
-    chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-        // With a new rule ...
-        chrome.declarativeContent.onPageChanged.addRules([
-            {
-                // That fires when a page's URL contains a 'g' ...
-                conditions: [
-          new chrome.declarativeContent.PageStateMatcher({
-                        pageUrl: {
-                            urlMatches: 'netflix.com/watch/*'
-                        },
-                    })
-        ],
-                // And shows the extension's page action.
-                actions: [new chrome.declarativeContent.ShowPageAction()]
-      }
-    ]);
-    });
+    /* Replace all rules ...
+     chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
+     // With a new rule ...
+     chrome.declarativeContent.onPageChanged.addRules([
+     {
+     // That fires when a page's URL contains a 'g' ...
+     conditions: [
+     new chrome.declarativeContent.PageStateMatcher({
+     pageUrl: {
+     urlMatches: 'netflix.com/watch/*'
+     },
+     })
+     ],
+     // And shows the extension's page action.
+     actions: [new chrome.declarativeContent.ShowPageAction()]
+     }
+     ]);
+     })
+     */
 });
+//listen for options open message
 chrome.runtime.onMessage.addListener(function (message, sender) {
     console.log(message);
     if (message.type == "options") {
         chrome.runtime.openOptionsPage();
     }
-});
-//inject content right on load
-chrome.webNavigation.onHistoryStateUpdated.addListener(function (e) {
-    chrome.tabs.executeScript(null, {
-        file: "js/injector.js"
-    });
-}, {
-    url: [{
-        urlMatches: 'netflix.com/watch/*'
-    }]
 });

@@ -69,7 +69,7 @@ function parseSubtitles(subFile) {
             var beginStr = subtitleText[i].split("-->")[0];
             var endStr = subtitleText[i].split("-->")[1];
             beginStr = beginStr.split(":");
-            endStr = endStr.split(":")
+            endStr = endStr.split(":");
             subtitle.beginTime = parseFloat(beginStr[0]) * 60 * 60 + parseFloat(beginStr[1]) * 60 + parseFloat(beginStr[2].replace(",", "."));
             subtitle.endTime = parseFloat(endStr[0]) * 60 * 60 + parseFloat(endStr[1]) * 60 + parseFloat(endStr[2].replace(",", "."));
             // increment line number and parse all text lines
@@ -89,7 +89,7 @@ function parseSubtitles(subFile) {
         msfn_currentTime = $("video")[0].currentTime + msfn_delay;
         findCurrentIndex();
         //adjust sub choices
-        $(msfn_subtitleList + ">li:contains(Off)").click()
+        $(msfn_subtitleList + ">li:contains(Off)").click();
         if (msfn_subName.length > 12) {
             msfn_customSubButton.html(msfn_subName.substr(0, 9) + "...");
         } else {
@@ -102,7 +102,7 @@ function parseSubtitles(subFile) {
         msfn_subtitleInput.val("");
         statMsg("Subtitles loaded: " + msfn_subName);
         msfn_customActive = true;
-    })
+    });
     // read the subtitles
     reader.readAsText(subFile, msfn_encoding);
 }
@@ -159,7 +159,7 @@ function controlsLoadTest() {
             if (msfn_customActive) {
                 //reset custBtn
                 msfn_customSubButton.removeClass("selected").empty().html("Custom");
-                $(msfn_subtitleList + ">li>" + msfn_subtitleCheck).show()
+                $(msfn_subtitleList + ">li>" + msfn_subtitleCheck).show();
                 $(this).addClass("selected");
                 //remove subs
                 msfn_subtitles.hide();
@@ -172,11 +172,11 @@ function controlsLoadTest() {
             var checkClone = $(msfn_subtitleList + ">li>" + msfn_subtitleCheck).clone();
             if (msfn_customActive) {
                 $(msfn_subtitleList + ">.selected").removeClass("selected");
-                $(msfn_subtitleList + ">li>" + msfn_subtitleCheck).hide()
+                $(msfn_subtitleList + ">li>" + msfn_subtitleCheck).hide();
                 checkClone.appendTo(msfn_customSubButton);
                 msfn_customSubButton.addClass("selected");
             } else {
-                $(msfn_subtitleList + ">li>" + msfn_subtitleCheck).show()
+                $(msfn_subtitleList + ">li>" + msfn_subtitleCheck).show();
             }
         });
     }
@@ -185,23 +185,73 @@ function controlsLoadTest() {
 function changeSubtitleSize(sizeIncrement) {
     var newSize = parseInt(msfn_subtitles.css("font-size")) + sizeIncrement;
     msfn_subtitles.css("font-size", newSize + "px");
-    window.postMessage({
-        type: "setVars",
-        fSize: newSize
-    }, "*");
-    statMsg("Size: " + newSize + "px");
+    chrome.storage.sync.set({
+        "fSize": newSize
+    }, function () {
+        if (chrome.runtime.lastError) {
+            statMsg("Error saving settings: " + chrome.runtime.lastError);
+        }
+        statMsg("Size: " + newSize + "px");
+
+    });
+
 }
 
 function changeDelay(delayIncrement) {
     msfn_delay -= delayIncrement;
     findCurrentIndex();
     $("video").trigger("timeupdate");
-    statMsg("Delay: " + msfn_delay.toFixed(1) + "ms");
+    statMsg("Delay: " + msfn_delay.toFixed(1) + "s");
 }
 
+$(document).on("dragover", function () {
+    msfn_dragOverlay.show();
+});
+
+$(document).on("dragend drop dragexit", function () {
+    msfn_dragOverlay.hide();
+});
+$(document).on("drop dragover", function (event) {
+    event.preventDefault();
+});
+
+$(document).on("drop", function (event) {
+    event.preventDefault();
+    event = event.originalEvent;
+    //process file
+    if (event.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        var file = event.dataTransfer.items[0].getAsFile();
+    } else {
+        // Use DataTransfer interface to access the file(s)
+        var file = event.dataTransfer.files[0];
+    }
+    parseSubtitles(file);
+});
+
 // ------------------ VARIABLES ------------------
+// ---- EXTENSION SETTINGS ----
 //encoding 
 var msfn_encoding = "UTF8";
+//load from storage
+chrome.storage.sync.get(["encoding", "fColor", "fSize", "sColor", "sSize", "fontFam"], function (items) {
+    if (chrome.runtime.lastError) {
+        statMsg("Error loading settings: " + chrome.runtime.lastError);
+    } else {
+        //get encoding
+        msfn_encoding = items.encoding;
+        // set subtitle css from settings
+        msfn_subtitles.css({
+            "color": items.fColor,
+            "font-size": items.fSize,
+            "font-family": items.fontFam,
+            "shadow": "0px 0px " + items.sSize + " " + items.sColor
+        });
+
+    }
+});
+
+// ---- SUB-SPECIFIC VARS ----
 //subtitle filename
 var msfn_subName = "";
 // subtitle delay
@@ -212,7 +262,7 @@ var msfn_currentTime = 0;
 var msfn_subtitleArray = [];
 // current subititle index
 var msfn_currentIndex = 0;
-//
+// custom sub active indication
 var msfn_customActive = false;
 // ---- NETFLIX SELECTORS ----
 // player controls
@@ -233,7 +283,7 @@ var msfn_subtitleInput = $('<input type="file" id="msfn_subtitleInput" name="msf
             }
         });
 //overlay for drag and drop
-var msfn_dragOverlay = $('<div id="msfn_dragOverlay">Drop subtitles here</div>');
+var msfn_dragOverlay = $('<div id="msfn_dragOverlay">Drop subtitles to load</div>');
 //subs placeholder
 var msfn_subtitles = $('<div id="msfn_subtitles"></div>');
 //status div
@@ -253,17 +303,11 @@ $(document).ready(function () {
      });
      */
 
-// message listener
+
     window.addEventListener("message", function (event) {
         if (event.data.type) {
-            if (event.data.type == "postVars") {
-                msfn_subtitles.css({
-                    "color": event.data.fColor,
-                    "font-size": event.data.fSize,
-                    "font-family": event.data.fontFam,
-                    "shadow": "0px 0px " + event.data.sSize + " " + event.data.sColor
-                });
-                msfn_encoding = event.data.encoding;
+            if (event.data.type === "postVars") {
+
             }
         }
     }, false);
@@ -277,14 +321,14 @@ $(document).ready(function () {
         switch (e.which) {
             case 34: // PgDn
                 if (e.altKey) {
-                    changeDelay(-0.1)
+                    changeDelay(-0.1);
                 } else if (e.shiftKey) {
                     changeSubtitleSize(-6);
                 }
                 break;
             case 33: // PgUp key
                 if (e.altKey) {
-                    changeDelay(0.1)
+                    changeDelay(0.1);
                 } else if (e.shiftKey) {
                     changeSubtitleSize(6);
                 }
@@ -301,6 +345,7 @@ $(document).ready(function () {
 
 // add injected content
     $("body").prepend(msfn_subtitleInput, msfn_dragOverlay, msfn_subtitles, msfn_status);
+    $("#msfn_dragOverlay").hide();
     /*
      var dragTimer;
      $(document).on('dragover', function (e) {

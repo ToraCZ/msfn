@@ -9,14 +9,14 @@
     "short_name": "MSFN",
     "permissions": [
         "storage",
-        "http://www.netflix.com/",
+        "https://www.netflix.com/",
         "activeTab",
         "declarativeContent",
         "tabs",
         "webNavigation"
     ],
     "background": {
-        "scripts": ["js/jquery-2.1.4.min.js", "js/background.js"],
+        "scripts": ["js/jquery.js", "js/background.js"],
         "persistent": false
     },
     "page_action": {
@@ -31,16 +31,16 @@
     },
     "content_scripts": [
         {
-            "matches": ["*://www.netflix.com/*"],
+            "matches": ["*://www.netflix.com/watch/*"],
             "css": ["css/content.css"],
-            "js": ["js/injector.js"]
+            "js": ["js/jquery.js","js/content.js"]
             }
             ],
     "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
     "web_accessible_resources": [
         "img/icon*.png",
         "js/content.js",
-        "js/jquery-2.1.4.min.js",
+        "js/jquery.js",
         "css/content.css"
     ],
     "options_ui": {
